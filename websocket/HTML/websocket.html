@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>websocket聊天室</title>
+    <script src="http://localhost:8081/socket.io/socket.io.js" charset="utf-8"></script>
+    <script>
+      let socket = io.connect("localhost:8081");
+
+
+
+      window.onload = ()=>{
+        //获取对应参数
+        let resbtn = document.getElementById('resbtn');
+        let username = document.getElementById('username');
+        let password = document.getElementById('password');
+
+        //注册回调事件
+        socket.on('res_ret',(code,msg)=>{
+          if(code){
+            alert("注册失败！"+msg);
+          }else{
+            alert("注册成功!");
+          };
+        })
+        //注册事件
+        resbtn.onclick = ()=>{
+            socket.emit('res',username.value,password.value);
+        };
+      }
+
+    </script>
+  </head>
+  <body>
+    <form action="" id="form">
+      账号<input id="username" type="text">
+      密码<input id="password" type="password">
+      <input type="button" id="resbtn" value="注册">
+      <input type="button" id="login" value="登录">
+    </form>
+  </body>
+</html>
