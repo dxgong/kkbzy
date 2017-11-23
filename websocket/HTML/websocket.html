@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <title>websocket聊天室</title>
     <script src="http://localhost:8081/socket.io/socket.io.js" charset="utf-8"></script>
+    <style>
+      .mine{
+        font-weight: 500;
+        font-color:blue;
+      }
+    </style>
     <script>
       let socket = io.connect("localhost:8081");
 
@@ -14,6 +20,10 @@
         let resbtn = document.getElementById('resbtn');
         let username = document.getElementById('username');
         let password = document.getElementById('password');
+        let loginbtn = document.getElementById('login');
+        let text = document.getElementById('text');
+        let send = document.getElementById('sendmsg');
+        let oUL = document.getElementById('ul');
 
         //注册回调事件
         socket.on('res_ret',(code,msg)=>{
@@ -27,6 +37,51 @@
         resbtn.onclick = ()=>{
             socket.emit('res',username.value,password.value);
         };
+
+        //注册登录回调事件
+        socket.on('login_ret',(code,msg)=>{
+          if(code){
+            alert(msg);
+          }else{
+            alert('登录成功!');
+            cur_username=username.value;
+          }
+        });
+        //登录事件
+        loginbtn.onclick = ()=>{
+          socket.emit('login',username.value,password.value);
+        }
+
+        //注册发送消息回调事件
+        socket.on('msg_ret',(code,msg)=>{
+          if(code){
+            alert("发送失败"+msg);
+          }else{
+            alert("发送成功:"+msg);
+            //拼接当前发送消息者
+            let oLi = document.createElement('li');
+            oLi.classname = 'mine';
+
+            oLi.innerHTML = `<h4>${cur_username}</h4><p>${text.value}</p>`;
+
+            oUL.appendChild(oLi);
+
+            text.value = '';
+          }
+        });
+
+        //注册广播回调事件
+        socket.on('message',(username, msg)=>{
+          let oLi = document.createElement('li');
+          oLi.innerHTML = `<h4>${username}</h4><p>${msg}</p>`
+          oUL.appendChild(oLi);
+        });
+
+        //发送事件
+        send.onclick = ()=>{
+          socket.emit('message',text.value);
+        }
+
       }
 
     </script>
@@ -37,6 +92,13 @@
       密码<input id="password" type="password">
       <input type="button" id="resbtn" value="注册">
       <input type="button" id="login" value="登录">
+      <hr>
+      <textarea cols="30" rows="8" style='border-color:black' id='text'></textarea>
+      <input type='button' id='sendmsg' value='发送消息'>
+      <hr>
+      <ul id='ul'>
+
+      </ul>
     </form>
   </body>
 </html>
