@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+      #div1{
+        width: 400px;
+        height: 450px;
+        text-align: center;
+        line-height: 450px;
+        border: 1px soild black;
+        background-color: gray;
+        margin:auto;
+      }
+    </style>
+    <script>
+      window.onload = ()=>{
+        let div1 = document.getElementById('div1');
+        //ondragenter     进入
+       //ondragleave     离开
+       //ondragover      悬停——只要没走，就一直发生
+       //ondrop          松开鼠标——如果dragover不阻止默认事件，drop压根不会发生
+       div1.addEventListener('dragenter',()=>{
+         div1.innerHTML = '释放鼠标';
+       },false);
+
+       div1.addEventListener('dragleave',()=>{
+         div1.innerHTML = '请拖动文件到此处';
+       },false);
+
+
+       div1.addEventListener('dragover',(en)=>{
+         console.log('dragover');
+          en.preventDefault();
+       },false);
+
+       div1.addEventListener('drop',(en)=>{
+         console.log(en.dataTransfer.files);
+         en.preventDefault();
+       },false);
+
+      }
+    </script>
+  </head>
+  <body>
+    <div id="div1">请拖动文件到此处</div>
+  </body>
+</html>

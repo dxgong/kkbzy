@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <script type="text/javascript">
+    window.onload = ()=>{
+      let oBtn = document.getElementById('btn1');
+
+      oBtn.onclick = ()=>{
+        if(window.navigator.geolocation){
+          navigator.geolocation.getCurrentPosition(res=>{
+            console.log(res);
+            alert("成功");
+          }, err=>{
+            console.log(err);
+            alert("s失败");
+          },{});
+        }else{
+          alert('你的浏览器不支持定位');
+        }
+      };
+    };
+  </script>
+  <body>
+    <input type="button" id="btn1" value="定位">
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <style>
+    .div1{
+      border:1px soild red;
+      background: grey;
+      width: 600px;
+      height: 20px;
+    }
+    #div2{
+      border:1px soild red;
+      background: green;
+      width: 0px;
+      height: 20px;
+    }
+  </style>
+  <script type="text/javascript">
+
+
+    window.onload = ()=>{
+
+      let oVi = document.getElementById('v1');
+      let bofang = document.getElementById('bofang');
+      let zanting = document.getElementById('zanting');
+      let tingzhi = document.getElementById('tingzhi');
+      let chakan = document.getElementById('chakan');
+      let jindu = document.getElementById('div2');
+
+      bofang.onclick = ()=>{
+        oVi.play();
+      }
+      zanting.onclick = ()=>{
+        oVi.pause();
+      }
+      tingzhi.onclick = ()=>{
+        oVi.pause();
+        oVi.currentTime = 0;
+      }
+
+      chakan.onclick = ()=>{
+        alert(oVi.currentTime);
+        alert(oVi.duration);
+      }
+
+      oVi.muted=true; //静音
+
+      //添加监听事件
+      oVi.addEventListener('timeupdate',function(){
+        jindu.style.width=parseInt(100*oVi.currentTime/oVi.duration)+'%';
+      },false);
+
+    }
+  </script>
+  <body>
+    <input type="button" value="播放" id="bofang">
+    <input type="button" value="暂停" id="zanting">
+    <input type="button" value="停止" id="tingzhi">
+    <input type="button" value="查看当前进度" id="chakan">
+      <div class="div1">
+        <div id="div2"></div>
+      </div>
+    <video src="1.mp4" controls id="v1"></video>
+
+  </body>
+</html>

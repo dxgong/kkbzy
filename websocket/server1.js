@@ -117,7 +117,7 @@ websocket.on('connection',(socket)=>{
       socket.emit('msg_ret',1,'消息不能为空!');
     }else{
       aSock.forEach((item)=>{
-        if(item===socket)return;
+        if(item==socket)return;
         console.log("当前发送信息的人是：" + cut_username);
         console.log("当前发送的信息是：" + msg);
 
